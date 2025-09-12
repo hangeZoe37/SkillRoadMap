@@ -28,7 +28,7 @@ const DaySchema = new mongoose.Schema(
 
 const RoadmapSchema = new mongoose.Schema(
     {
-        // userId:{type:mongoose.Schema.Types.ObjectId,ref:"User",required:true},
+        userId:{type:mongoose.Schema.Types.ObjectId,ref:"User",required:true},
         topic : {type:String,required:true},
         duration:{type:Number,required:true},
         level:{type:String,enum:["Beginner","Intermediate","Advanced"],required:true},

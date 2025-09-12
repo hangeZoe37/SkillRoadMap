@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "joi": "^18.0.1",
     "mongodb": "^6.18.0"
   }
 }

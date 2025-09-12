@@ -8,7 +8,11 @@ import { tryParseJSON } from "../utils/parser.js";
  */
 export async function getAssessmentQuestions(req,res){
     const {topic}=req.body || {};
-    if(!topic) return res.status(400).json({error:"topic is required"});
+    
+    if(!topic) {
+        return res.status(400).json({error:"topic is required"});
+    }
+    
     const schemaHint =`
     Array of 10 items :
     {
@@ -16,11 +20,11 @@ export async function getAssessmentQuestions(req,res){
     "question": string,
     "options":[string,string,string,string],
     "correct": 0|1|2|3,
-    "difficulty": "Easy"|"Medium"|"Hard"
+    "difficulty": "Easy"|"Medium"|"Hard",
     "explanation": string
     }`;
     
-    const prompt=`Generate 10 multiple choice questions to assess ${topic}.
+    const prompt=`Generate 10 multiple choice questions in detail to assess ${topic}.
    Balance :~4 beginner, ~4 intermediate, ~2 advanced.
     Make questions specific and non-trivial.
     Include the correct option index in "correct".
@@ -31,18 +35,21 @@ export async function getAssessmentQuestions(req,res){
     try{
         const raw = await generateText(prompt); // get raw text from Gemini
         const data = tryParseJSON(raw); // parse using parser utility
-        if(data.length !== 10){
-            return res.status(500).json({error:"Invalid response format"});
+        
+        if(!data || !Array.isArray(data) || data.length !== 10){
+            return res.status(500).json({error:"Invalid response format from AI service"});
         }
+        
         return res.status(200).json(data);
     }
     catch(error){
         console.error("Error generating assessment questions:", error);
-        return res.status(500).json({error:"Failed to generate questions"});
+        console.error("Error details:", error.message);
+        return res.status(500).json({
+            error:"Failed to generate questions",
+            details: error.message
+        });
     }
-
-
-
 }
 
 /**
@@ -53,10 +60,22 @@ export async function getAssessmentQuestions(req,res){
 
 export async function evaluateAssessment(req,res){
     const {answers,questions}=req.body || {};
-    if(!Array.isArray(answers) || !Array.isArray(questions))
+    
+    if(!Array.isArray(answers) || !Array.isArray(questions)) {
         return res.status(400).json({error:"answers and questions are required arrays"});
-    if(answers.length!== questions.length) 
-        return res.status(400).json({error:"answers and questions length mismatch"})
+    }
+    
+    if(answers.length !== questions.length) {
+        // If we have more answers than questions, trim the answers
+        if(answers.length > questions.length) {
+            answers.splice(questions.length);
+        } else {
+            return res.status(400).json({
+                error:"answers and questions length mismatch",
+                details: `Expected ${questions.length} answers, got ${answers.length}`
+            });
+        }
+    }
 
     let correct=0;
     let EasyCorrect=0,MediumCorrect=0,HardCorrect=0;

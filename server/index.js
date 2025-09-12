@@ -22,11 +22,14 @@ const PORT=process.env.PORT || 6001;
 
 import assessmentRoutes from "./routes/assessment.routes.js";
 import roadmapRoutes from "./routes/roadmap.routes.js"; 
+import authRoutes from "./routes/auth.routes.js";
 import contentRoutes from "./routes/content.routes.js";
+
 //API
 app.use("/api/assessment",assessmentRoutes);
 app.use("/api/roadmap",roadmapRoutes);
 app.use("/api/content",contentRoutes);
+app.use("/api/auth",authRoutes);
 
 
 app.get('/',(req,res)=>{

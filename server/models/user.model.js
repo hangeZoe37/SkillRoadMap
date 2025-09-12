@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema(
             type:String,
             required:true,
             unique:true,
-            lowerCase:true,
+            lowercase:true,
             trim:true
         },
         password:{
@@ -34,6 +34,7 @@ const UserSchema = new mongoose.Schema(
 );
 
 UserSchema.index({email:1},{unique:true});
+
 
 const User=mongoose.model("User",UserSchema);
 export default User;
