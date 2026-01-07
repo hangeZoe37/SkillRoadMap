@@ -17,7 +17,6 @@ export function isTokenExpired(token) {
         return decoded.exp * 1000 < Date.now();
     } catch (error) {
         console.log(error);
-        
         return true;
     }
 }

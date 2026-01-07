@@ -28,7 +28,7 @@ export async function getAssessmentQuestions(req,res){
    Balance :~4 beginner, ~4 intermediate, ~2 advanced.
     Make questions specific and non-trivial.
     Include the correct option index in "correct".
-    Respond ONLY with valid JSON. No extra text, no comments.
+    Respond ONLY with valid raw JSON. No extra text, no comments.
     ${schemaHint}
     `;
 

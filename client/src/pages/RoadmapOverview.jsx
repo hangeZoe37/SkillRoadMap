@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { createRoadmap } from "../api/roadmapAPI";
 import Loader from "../components/Loader";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion,AnimatePresence } from "framer-motion";
 
 const RoadmapOverview = ({ topic, duration, level, score, breakdown }) => {
   const [loading, setLoading] = useState(false);
@@ -12,7 +12,6 @@ const RoadmapOverview = ({ topic, duration, level, score, breakdown }) => {
   const [completedItems, setCompletedItems] = useState(new Set());
 
   const timelineRef = useRef(null);
-
   const levelColors = {
     1: {
       bg: "bg-gradient-to-r from-blue-100 to-indigo-100",
@@ -228,7 +227,7 @@ const RoadmapOverview = ({ topic, duration, level, score, breakdown }) => {
                 >
                   <div className="flex p-2 space-x-2 mx-auto">
                     {roadmap.days?.map((day, index) => {
-                      const isActive = activeDay === day.dayNumber;
+                      const isActive = activeDay === day.dayNumber;//i
                       const dayProgress = calculateDayProgress(day.dayNumber);
                       const isCompleted = dayProgress === 100;
                       
@@ -239,7 +238,7 @@ const RoadmapOverview = ({ topic, duration, level, score, breakdown }) => {
                           whileHover={{ y: -2, scale: 1.03 }}
                           whileTap={{ scale: 0.97 }}
                           onClick={() => {
-                            setActiveDay(day.dayNumber);
+                            setActiveDay(prev=>prev===day.dayNumber?null:day.dayNumber);
                             setExpandedLevel(null);
                           }}
                           className={`flex flex-col items-center justify-center relative z-10 min-w-[60px] p-2 rounded-lg transition-all duration-300 ${
@@ -252,7 +251,7 @@ const RoadmapOverview = ({ topic, duration, level, score, breakdown }) => {
                         >
                           {/* Connection line (except for last item) */}
                           {index < roadmap.days.length - 1 && (
-                            <div className={`absolute -right-2 top-1/2 w-2 h-0.5 -translate-y-1/2 ${
+                            <div className={`absolute -right-2 top-1/2 w-2 h-3.5 -translate-y-1/2 ${
                               isCompleted ? "bg-green-400" : "bg-gray-300"
                             }`}></div>
                           )}
@@ -330,7 +329,7 @@ const RoadmapOverview = ({ topic, duration, level, score, breakdown }) => {
                         transition={{ repeat: Infinity, duration: 2 }}
                         className="mt-4 text-gray-400"
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                         </svg>
                       </motion.div>
@@ -437,6 +436,7 @@ const RoadmapOverview = ({ topic, duration, level, score, breakdown }) => {
                                         </div>
                                         <div className="text-xs text-gray-600">
                                           {lvl.topics.length} topics
+                                          {/* //abs */}
                                           {lvl.description && ` • ${lvl.description}`}
                                         </div>
                                       </div>
@@ -676,7 +676,6 @@ const RoadmapOverview = ({ topic, duration, level, score, breakdown }) => {
     
     return totalItems > 0 ? (completed / totalItems) * 100 : 0;
   }
-  
   // Helper function to calculate progress for a specific level
   function calculateLevelProgress(dayNumber, levelNumber) {
     if (!roadmap?.days) return 0;

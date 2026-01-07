@@ -49,12 +49,13 @@ function App() {
           path="/assess"
           element={
             <ProtectedRoute>
-              <Assesment
+              {topic?(<Assesment
                 topic={topic}
                 duration={duration}
                 handleAssessmentFinish={(res) => setResult(res)}
-                // doubt:how do we make sure that result will be after assessment
-              />
+              />):(
+                <Navigate to="/" replace />
+              )}
             </ProtectedRoute>
           }
         />

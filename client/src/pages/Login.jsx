@@ -2,75 +2,71 @@
 import React, { useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import { login } from "../api/authApi.js";
-import {showSuccessToast,showErrorToast} from "../components/Toast.jsx";
+import { showSuccessToast, showErrorToast } from "../components/Toast.jsx";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await login(email, password);
-      showSuccessToast("Login Successful")
+      showSuccessToast("Welcome back 👋");
       navigate("/");
-
     } catch (err) {
-      setError(err.response?.data?.message || "Login failed");
-      showErrorToast(error)
+      showErrorToast(err.response?.data?.message || "Login failed");
     }
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center px-4">
-      <div className="p-10 border-4 rounded-2xl bg-white/40 border-white shadow-2xl w-full max-w-sm flex flex-col space-y-6">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-blue-50 px-4">
+      <div className="w-full max-w-md rounded-2xl bg-white/70 backdrop-blur-xl border border-white shadow-2xl p-8 space-y-6">
         {/* Title */}
-        <h2 className="text-3xl p-1 font-bold text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-          Login
+        <h2 className="text-3xl font-extrabold text-center">
+          <span className="bg-gradient-to-r from-blue-600 to-green-500 bg-clip-text text-transparent">
+            Welcome Back
+          </span>
         </h2>
 
-        {/* Error */}
-        {error && (
-          <p className="text-red-600 text-sm text-center">{error}</p>
-        )}
+        <p className="text-center text-sm text-gray-500">
+          Continue your learning journey 🚀
+        </p>
 
         {/* Form */}
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col gap-5"
-        >
+        <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="email"
-            placeholder="Email"
-            className="border p-3 bg-pink-50 rounded-md"
+            placeholder="Email address"
+            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
+
           <input
             type="password"
             placeholder="Password"
-            className="border p-3 bg-pink-50 rounded-md"
+            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
 
           <button
             type="submit"
-            className="bg-gradient-to-r from-purple-400 to-pink-400 text-white py-2.5 rounded-md cursor-pointer transition-transform active:scale-95"
+            className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-500 to-green-500 text-white font-semibold shadow hover:scale-[1.02] transition-all active:scale-95"
           >
             Login
           </button>
         </form>
 
         {/* Footer */}
-        <p className="mt-6 text-center text-sm">
-          Don’t have an account?{" "}
-          <NavLink to="/signup">
-            <span className="bg-gradient-to-r from-purple-400 to-pink-600 px-3 py-1 text-white ml-2 rounded-md transition-transform active:scale-95">
-              Sign up
-            </span>
+        <p className="text-center text-sm text-gray-600">
+          Don’t have an account?
+          <NavLink to="/signup" className="ml-2 font-semibold text-blue-600 hover:underline">
+            Sign up
           </NavLink>
         </p>
       </div>
