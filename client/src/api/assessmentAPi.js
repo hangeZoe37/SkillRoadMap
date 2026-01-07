@@ -1,9 +1,9 @@
 import axios from "axios";
-
+const API_URL = import.meta.env.VITE_API_URL;
 export async function fetchAssessmentQuestions(topic) {
   try {
     const response = await axios.post(
-      "http://localhost:6001/api/assessment/questions",
+      `${API_URL}/assessment/questions`,
       { topic }
     );
     console.log("topic",topic);
@@ -19,7 +19,7 @@ export async function fetchAssessmentQuestions(topic) {
 export const evaluateAssessment = async (answers, questions) => {
   try {
     const result = await axios.post(
-      "http://localhost:6001/api/assessment/evaluate",
+      `${API_URL}/api/assessment/evaluate`,
       { answers, questions }
     );
     return result.data;

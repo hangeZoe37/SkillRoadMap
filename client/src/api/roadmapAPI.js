@@ -1,9 +1,9 @@
 import axios from "axios";
-
+const API_URL = import.meta.env.VITE_API_URL;
 export async function createRoadmap(topic,duration,level,score,breakdown){
     try{
         const response=await axios.post(
-            "http://localhost:6001/api/roadmap/createRoadMap",
+            `${API_URL}/roadmap/createRoadMap`,
             {topic,duration,level ,score,breakdown}
         );
         console.log(response.data);
@@ -18,7 +18,7 @@ export async function createRoadmap(topic,duration,level,score,breakdown){
 export async function getMyRoadmaps(){
     try {
         const res=await axios.get(
-            "http://localhost:6001/api/roadmap/getMyroadmaps"
+            `${API_URL}/api/roadmap/getMyroadmaps`
         );
         console.log(res.data);
         

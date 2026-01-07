@@ -1,5 +1,7 @@
 import axios from "axios";
-const API_URL="http://localhost:6001/api/auth";
+const API = import.meta.env.VITE_API_URL;
+
+const API_URL=`${API}/api/auth`;
 
 export function setAuthToken(token){
     if(token){
