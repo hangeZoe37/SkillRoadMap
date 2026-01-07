@@ -3,7 +3,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 export async function createRoadmap(topic,duration,level,score,breakdown){
     try{
         const response=await axios.post(
-            `${API_URL}/roadmap/createRoadMap`,
+            `${API_URL}/api/roadmap/createRoadMap`,
             {topic,duration,level ,score,breakdown}
         );
         console.log(response.data);

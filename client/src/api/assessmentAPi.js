@@ -3,7 +3,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 export async function fetchAssessmentQuestions(topic) {
   try {
     const response = await axios.post(
-      `${API_URL}/assessment/questions`,
+      `${API_URL}/api/assessment/questions`,
       { topic }
     );
     console.log("topic",topic);
